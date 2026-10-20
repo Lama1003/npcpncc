@@ -1,462 +1,403 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Một bó hoa dành tặng bạn · 20/10</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;1,400&family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #fdf6f7;
+      --card-bg: #fffbfb;
+      --text-main: #4a3b3c;
+      --text-muted: #7a6b6c;
+      --accent-pink: #d46a84;
+      --border-color: #f0d8de;
+    }
+
     * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-        background-color: var(--bg-primary);
-        color: var(--text-main);
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        overflow-x: hidden;
-        position: relative;
-        padding: 20px;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+      padding: 20px;
     }
 
-    /* Nền hoa rơi nhẹ nhàng */
     .petal {
-        position: absolute;
-        background: rgba(212, 106, 132, 0.15);
-        border-radius: 150% 0 150% 0;
-        animation: fall linear infinite;
-        z-index: 1;
-        pointer-events: none;
+      position: absolute;
+      background: rgba(212, 106, 132, 0.15);
+      border-radius: 150% 0 150% 0;
+      animation: fall linear infinite;
+      pointer-events: none;
+      z-index: 1;
     }
 
     @keyframes fall {
-        0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-        20% { opacity: 0.8; }
-        100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+      20% { opacity: 0.8; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
     }
 
     .container {
-        position: relative;
-        z-index: 2;
-        width: 100%;
-        max-width: 1100px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 24px;
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
     }
 
     header {
-        text-align: center;
-        margin-bottom: 10px;
+      text-align: center;
+      margin-bottom: 10px;
     }
 
-    .date-badge {
-        font-size: 13px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: var(--accent-pink);
-        font-weight: 600;
-        margin-bottom: 8px;
-        display: block;
-    }
-
-    h1 {
-        font-family: 'Playfair Display', serif;
-        font-size: clamp(28px, 4vw, 42px);
-        font-weight: 600;
-        color: var(--text-main);
-        line-height: 1.3;
-        margin-bottom: 6px;
+    header h1 {
+      font-family: 'Noto Serif', serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 600;
+      color: var(--accent-pink);
+      line-height: 1.3;
+      margin-bottom: 6px;
     }
 
     .subtitle {
-        font-size: clamp(14px, 1.8vw, 16px);
-        color: var(--text-muted);
-        font-style: italic;
+      font-family: 'Noto Serif', serif;
+      font-size: clamp(14px, 1.8vw, 16px);
+      color: var(--text-muted);
+      font-style: italic;
     }
 
     .main-content {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 40px;
-        width: 100%;
-        align-items: center;
-        justify-content: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
     }
 
-    /* Khung Bó Hoa */
     .bouquet-section {
-        flex: 1;
-        min-width: 320px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
+      flex: 1;
+      min-width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
     }
 
-    .bouquet-wrapper {
-        position: relative;
-        width: 340px;
-        height: 420px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    canvas#bouquetCanvas {
+      cursor: pointer;
+      max-width: 100%;
+      height: auto;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .flower-node {
-        position: absolute;
-        cursor: pointer;
-        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    canvas#bouquetCanvas:hover {
+      transform: scale(1.02);
     }
 
-    .flower-node:hover {
-        transform: scale(1.15) rotate(5deg);
-    }
-
-    /* Thư phong bì nhỏ bên cạnh bó hoa */
-    .envelope-trigger {
-        margin-top: 15px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        background: #fff;
-        padding: 10px 18px;
-        border-radius: 99px;
-        border: 1px solid var(--border-color);
-        cursor: pointer;
-        box-shadow: 0 4px 15px rgba(212, 106, 132, 0.1);
-        transition: all 0.25s ease;
-    }
-
-    .envelope-trigger:hover {
-        background: #fff0f3;
-        transform: translateY(-2px);
-    }
-
-    .envelope-trigger span {
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--accent-pink);
-    }
-
-    /* Khung Thiệp Lớn Bên Phải */
     .card-section {
-        flex: 1;
-        min-width: 340px;
-        max-width: 520px;
-        background: var(--card-bg);
-        backdrop-filter: blur(10px);
-        border: 1px solid var(--border-color);
-        border-radius: 24px;
-        padding: 36px 30px;
-        box-shadow: 0 15px 40px rgba(212, 106, 132, 0.12);
-        position: relative;
+      flex: 1;
+      min-width: 340px;
+      max-width: 520px;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 36px 30px;
+      box-shadow: 0 15px 40px rgba(212, 106, 132, 0.12);
+      position: relative;
     }
 
     .card-header {
-        text-align: center;
-        margin-bottom: 22px;
-        position: relative;
+      text-align: center;
+      margin-bottom: 22px;
+      position: relative;
     }
 
     .card-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 26px;
-        color: var(--accent-pink);
-        letter-spacing: 3px;
-        font-weight: 600;
-        margin-bottom: 8px;
+      font-family: 'Noto Serif', serif;
+      font-size: 26px;
+      color: var(--accent-pink);
+      letter-spacing: 3px;
+      font-weight: 600;
+      margin-bottom: 8px;
     }
 
     .card-flower-icon {
-        font-size: 20px;
-        color: var(--accent-pink);
-        margin-bottom: 12px;
-        display: block;
+      font-size: 20px;
+      color: var(--accent-pink);
+      display: block;
     }
 
     .card-body {
-        font-size: 15px;
-        line-height: 1.7;
-        color: var(--text-main);
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-main);
     }
 
     .card-greeting {
-        font-weight: 600;
-        color: var(--accent-pink);
+      font-weight: 600;
+      color: var(--accent-pink);
+      margin-bottom: 12px;
+      font-size: 16px;
     }
 
     .card-main-msg {
-        font-family: 'Playfair Display', serif;
-        font-size: 22px;
-        font-style: italic;
-        text-align: center;
-        color: #5c3d4c;
-        padding: 6px 0;
-        line-height: 1.4;
+      font-family: 'Noto Serif', serif;
+      font-size: 22px;
+      font-style: italic;
+      text-align: center;
+      color: #5c3d4c;
+      padding: 14px 0;
+      line-height: 1.4;
     }
 
     .card-signature {
-        text-align: right;
-        font-style: italic;
-        font-family: 'Playfair Display', serif;
-        font-size: 18px;
-        color: var(--accent-pink);
-        margin-top: 10px;
+      text-align: right;
+      font-style: italic;
+      font-family: 'Noto Serif', serif;
+      font-size: 18px;
+      color: var(--accent-pink);
+      margin-top: 24px;
     }
 
-    /* Bong bóng lời chúc nhỏ khi bấm vào hoa */
-    .whisper-popup {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0.9);
-        background: #fff;
-        padding: 24px 30px;
-        border-radius: 20px;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        border: 1px solid var(--border-color);
-        z-index: 100;
-        text-align: center;
-        max-width: 320px;
-        opacity: 0;
-        pointer-events: none;
-        transition: all 0.3s ease;
-    }
-
-    .whisper-popup.active {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-        pointer-events: auto;
-    }
-
-    .whisper-popup p {
-        font-size: 16px;
-        line-height: 1.5;
-        color: var(--text-main);
-        margin-bottom: 16px;
-        font-family: 'Playfair Display', serif;
-    }
-
-    .whisper-close {
-        background: var(--accent-pink);
-        color: #fff;
-        border: none;
-        padding: 6px 20px;
-        border-radius: 99px;
-        cursor: pointer;
-        font-size: 13px;
-        font-weight: 600;
-    }
-
-    .backdrop {
-        position: fixed;
-        inset: 0;
-        background: rgba(74, 59, 76, 0.3);
-        backdrop-filter: blur(4px);
-        z-index: 90;
-        display: none;
-    }
-    .backdrop.active {
-        display: block;
-    }
-
-    /* Chân trang */
     .actions-footer {
-        margin-top: 15px;
-        display: flex;
-        gap: 15px;
-        justify-content: center;
-        font-size: 13px;
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      font-size: 13px;
     }
 
     .action-link {
-        color: var(--text-muted);
-        text-decoration: none;
-        cursor: pointer;
-        transition: color 0.2s;
+      color: var(--text-muted);
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s;
     }
+
     .action-link:hover {
-        color: var(--accent-pink);
+      color: var(--accent-pink);
+    }
+
+    .whisper-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      background: #fff;
+      padding: 24px 30px;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+      border: 1px solid var(--border-color);
+      z-index: 100;
+      text-align: center;
+      max-width: 320px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .whisper-popup.active {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+      pointer-events: auto;
+    }
+
+    .whisper-popup p {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .whisper-close {
+      background: var(--accent-pink);
+      color: #fff;
+      border: none;
+      padding: 6px 20px;
+      border-radius: 99px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(74, 59, 60, 0.3);
+      backdrop-filter: blur(4px);
+      z-index: 90;
+      display: none;
+    }
+
+    .backdrop.active {
+      display: block;
     }
 
     @media (max-width: 768px) {
-        .main-content {
-            flex-direction: column;
-        }
-        .card-section {
-            width: 100%;
-        }
+      .main-content {
+        flex-direction: column;
+      }
+      .card-section {
+        width: 100%;
+      }
     }
-</style>
+  </style>
+</head>
+<body>
 
+  <div id="petals-container"></div>
 
-<!-- Cánh hoa rơi nền -->
-<div id="petals-container"></div>
-
-<div class="container">
+  <div class="container">
     <header>
-        <span class="date-badge">Ngày Phụ Nữ Việt Nam 20/10</span>
-        <h1>Một bó hoa nhỏ,<br>gửi ngàn yêu thương.</h1>
-        <p class="subtitle">Mong hôm nay của bạn thật dịu dàng.</p>
+      <h1>Ngày Phụ Nữ Việt Nam · 20/10</h1>
+      <div class="subtitle">Một bó hoa nhỏ, gửi ngàn yêu thương.</div>
     </header>
 
     <div class="main-content">
-        <!-- Bó Hoa Tương Tác -->
-        <div class="bouquet-section">
-            <div class="bouquet-wrapper" id="bouquet">
-                <!-- Các bông hoa SVG sinh tự động bằng JS -->
-            </div>
-            
-            <div class="envelope-trigger" id="open-card-btn">
-                <span>💌 Có một tấm thiệp cho bạn (Bấm để xem)</span>
-            </div>
-            <div style="margin-top:8px; font-size:12px; color:var(--text-muted);">
-                Chạm một bông hoa để nhận lời chúc
-            </div>
-        </div>
+      <div class="bouquet-section">
+        <canvas id="bouquetCanvas" width="450" height="520"></canvas>
+      </div>
 
-        <!-- Khung Thiệp Chính (Thiệp 1) -->
-        <div class="card-section" id="main-card">
-            <div class="card-header">
-                <div class="card-title">20 / 10</div>
-                <span class="card-flower-icon">🌸</span>
-            </div>
-            <div class="card-body">
-                <div class="card-greeting">Gửi npcp =)),</div>
-                <div class="card-main-msg">"May beautiful things always blossom around u."</div>
-                <p>Một bông hoa có thể làm một ngày thêm đẹp.</p>
-                <p>Nhân ngày 20/10, chúc en nở phê luôn được yêu thương, trân trọng và luôn luôn vui tươi, tràn đầy hạnh phúc, vui vẻ, niềm vui trong cuộc sống.</p>
-                <div class="card-signature">skibidi</div>
-            </div>
-            
-            <div class="actions-footer">
-                <a class="action-link" id="reset-flower-btn">Cho hoa nở lại ↺</a>
-            </div>
+      <!-- Khung Thiệp Chúc Mừng Đã Sửa Tên Thành "en nờ pê cê" -->
+      <div class="card-section">
+        <div class="card-header">
+          <div class="card-title">20 / 10</div>
+          <span class="card-flower-icon">🌸</span>
         </div>
+        <div class="card-body">
+          <div class="card-greeting">Gửi npcp =)),</div>
+          <div class="card-main-msg">May beautiful things always blossom around u.</div>
+          <br>
+          <p>Một bông hoa có thể làm một ngày thêm đẹp.</p>
+          <br>
+          <p>Nhân ngày 20/10, chúc en nờ pê cê luôn được yêu thương, trân trọng và luôn luôn vui tươi, tràn đầy hạnh phúc, vui vẻ, niềm vui trong cuộc sống.</p>
+          <div class="card-signature">skibidi</div>
+        </div>
+        <div class="actions-footer">
+          <span class="action-link" id="retriggerBloom">Làm mới bó hoa ↺</span>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 
-<!-- Popup khi bấm vào hoa hoặc thiệp phụ (Thiệp 2) -->
-<div class="backdrop" id="backdrop"></div>
-<div class="whisper-popup" id="whisper-popup">
-    <p id="whisper-text">Chúc cậu 20/10 ngập tràn niềm vui!</p>
-    <button class="whisper-close" id="whisper-close-btn">Đóng lại</button>
-</div>
+  <div class="backdrop" id="backdrop"></div>
+  <div class="whisper-popup" id="whisperPopup">
+    <p id="whisperText">Chúc en nờ pê cê 20/10 ngập tràn niềm vui!</p>
+    <button class="whisper-close" id="closeWhisper">Đóng lại</button>
+  </div>
 
-<script>
-    // 1. Tạo hiệu ứng cánh hoa rơi
-    const petalsContainer = document.getElementById('petals-container');
-    for (let i = 0; i < 22; i++) {
-        const petal = document.createElement('div');
-        petal.className = 'petal';
-        const size = Math.random() * 10 + 8;
-        petal.style.width = `${size}px`;
-        petal.style.height = `${size * 1.4}px`;
-        petal.style.left = `${Math.random() * 100}vw`;
-        petal.style.top = `-20px`;
-        petal.style.animationDuration = `${Math.random() * 6 + 5}s`;
-        petal.style.animationDelay = `${Math.random() * 5}s`;
-        petalsContainer.appendChild(petal);
-    }
-
-    // 2. Danh sách lời chúc khi bấm vào từng bông hoa
+  <script>
     const WHISPER_NOTES = [
-        "Chúc en nở phê 20/10 ngập tràn niềm vui và hạnh phúc!",
-        "Luôn xinh đẹp, rạng rỡ và tỏa sáng theo cách của riêng cậu nhé ✨",
-        "Mong mọi điều tốt đẹp và ngọt ngào nhất sẽ luôn ở bên cậu 🌸",
-        "Cảm ơn vì đã luôn mang đến năng lượng tuyệt vời! Chúc mừng 20/10 💖",
-        "Hôm nay hãy thật thảnh thơi và tận hưởng ngày của mình nhé! 🌷",
-        "Chúc nụ cười luôn nở trên môi cậu mỗi ngày 😊"
+      "Chúc en nờ pê cê 20/10 ngập tràn niềm vui! 🌸",
+      "May beautiful things always blossom around u! ✨",
+      "Luôn rạng rỡ, xinh đẹp và mỉm cười mỗi ngày nhé! 💖",
+      "Mong mọi điều tốt đẹp nhất sẽ đến với cậu. 🌷"
     ];
 
-    // 3. Vẽ bó hoa hồng SVG
-    const bouquetEl = document.getElementById('bouquet');
-    const flowerPositions = [
-        { x: 0, y: -90, scale: 1.1, color: "#d46a84" },
-        { x: -55, y: -45, scale: 0.95, color: "#e8889e" },
-        { x: 55, y: -45, scale: 0.95, color: "#c25772" },
-        { x: -35, y: -115, scale: 1.0, color: "#f0a1b4" },
-        { x: 35, y: -115, scale: 1.0, color: "#d46a84" },
-        { x: 0, y: -155, scale: 1.05, color: "#e8889e" },
-        { x: -80, y: -80, scale: 0.85, color: "#c25772" },
-        { x: 80, y: -80, scale: 0.85, color: "#f0a1b4" },
-        { x: 0, y: -50, scale: 0.9, color: "#d46a84" }
-    ];
-
-    function createRoseSvg(color) {
-        return `
-            <svg width="70" height="70" viewBox="0 0 100 100" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1))">
-                <circle cx="50" cy="50" r="42" fill="${color}" opacity="0.9"/>
-                <path d="M50 20 Q65 35 50 50 Q35 35 50 20 Z" fill="#fff" opacity="0.4"/>
-                <path d="M30 40 Q45 55 35 70 Q20 55 30 40 Z" fill="#fff" opacity="0.3"/>
-                <path d="M70 40 Q55 55 65 70 Q80 55 70 40 Z" fill="#fff" opacity="0.3"/>
-                <circle cx="50" cy="50" r="14" fill="#fff" opacity="0.5"/>
-            </svg>
-        `;
+    const petalsContainer = document.getElementById('petals-container');
+    for (let i = 0; i < 18; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.style.left = `${Math.random() * 100}vw`;
+      p.style.top = `${-10 - Math.random() * 20}vh`;
+      p.style.width = `${12 + Math.random() * 12}px`;
+      p.style.height = `${16 + Math.random() * 16}px`;
+      p.style.animationDuration = `${6 + Math.random() * 6}s`;
+      p.style.animationDelay = `${Math.random() * 5}s`;
+      petalsContainer.appendChild(p);
     }
 
-    flowerPositions.forEach((pos, index) => {
-        const node = document.createElement('div');
-        node.className = 'flower-node';
-        node.style.transform = `translate(${pos.x}px, ${pos.y}px) scale(${pos.scale})`;
-        node.innerHTML = createRoseSvg(pos.color);
-        
-        node.addEventListener('click', () => {
-            const note = WHISPER_NOTES[index % WHISPER_NOTES.length];
-            showWhisper(note);
-        });
-        
-        bouquetEl.appendChild(node);
-    });
-
-    // Thêm thân và nơ bó hoa ở dưới
-    const wrapperEl = document.createElement('div');
-    wrapperEl.style.position = 'absolute';
-    wrapperEl.style.bottom = '10px';
-    wrapperEl.innerHTML = `
-        <svg width="140" height="160" viewBox="0 0 140 160">
-            <!-- Thân hoa -->
-            <path d="M70 0 L50 120 M70 0 L70 130 M70 0 L90 120" stroke="#7a9a7a" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
-            <!-- Giấy gói hoa -->
-            <path d="M20 70 L70 150 L120 70 Q140 50 120 40 L85 65 L55 65 L20 40 Q0 50 20 70 Z" fill="#fcf0f2" stroke="#d46a84" stroke-width="2" opacity="0.95"/>
-            <!-- Nơ hồng -->
-            <path d="M70 95 C50 80 30 100 50 115 C65 125 70 105 70 95 Z" fill="#d46a84"/>
-            <path d="M70 95 C90 80 110 100 90 115 C75 125 70 105 70 95 Z" fill="#d46a84"/>
-            <circle cx="70" cy="98" r="8" fill="#b8526c"/>
-        </svg>
-    `;
-    bouquetEl.appendChild(wrapperEl);
-
-    // Hiển thị popup lời chúc từng bông hoa
-    const popup = document.getElementById('whisper-popup');
+    const canvas = document.getElementById('bouquetCanvas');
+    const ctx = canvas.getContext('2d');
+    const whisperPopup = document.getElementById('whisperPopup');
+    const whisperText = document.getElementById('whisperText');
     const backdrop = document.getElementById('backdrop');
-    const whisperText = document.getElementById('whisper-text');
+    const closeWhisper = document.getElementById('closeWhisper');
 
-    function showWhisper(text) {
-        whisperText.textContent = text;
-        popup.classList.add('active');
-        backdrop.classList.add('active');
+    function drawBouquet() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.fillStyle = '#fce4ec';
+      ctx.beginPath();
+      ctx.moveTo(225, 200);
+      ctx.lineTo(130, 460);
+      ctx.lineTo(320, 460);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = '#d46a84';
+      ctx.beginPath();
+      ctx.arc(225, 430, 22, 0, Math.PI * 2);
+      ctx.fill();
+
+      const roses = [
+        {x: 225, y: 160, r: 48, c: '#ff85c0'},
+        {x: 175, y: 200, r: 42, c: '#ffb3d1'},
+        {x: 275, y: 200, r: 42, c: '#ff99bb'},
+        {x: 130, y: 250, r: 38, c: '#ffc2d6'},
+        {x: 225, y: 240, r: 44, c: '#ff70a6'},
+        {x: 320, y: 250, r: 38, c: '#ffa6c1'},
+        {x: 180, y: 290, r: 36, c: '#ffb3d1'},
+        {x: 270, y: 290, r: 36, c: '#ff85c0'},
+        {x: 225, y: 310, r: 38, c: '#ffc2d6'}
+      ];
+
+      roses.forEach(rose => {
+        ctx.save();
+        ctx.fillStyle = rose.c;
+        ctx.beginPath();
+        ctx.arc(rose.x, rose.y, rose.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.arc(rose.x, rose.y, rose.r * 0.55, 0, Math.PI * 1.5);
+        ctx.stroke();
+        ctx.restore();
+      });
     }
 
-    document.getElementById('whisper-close-btn').addEventListener('click', closePopup);
-    backdrop.addEventListener('click', closePopup);
+    drawBouquet();
 
-    function closePopup() {
-        popup.classList.remove('active');
-        backdrop.classList.remove('active');
+    canvas.addEventListener('click', () => {
+      const randomNote = WHISPER_NOTES[Math.floor(Math.random() * WHISPER_NOTES.length)];
+      whisperText.textContent = randomNote;
+      whisperPopup.classList.add('active');
+      backdrop.classList.add('active');
+    });
+
+    function closeAllPopups() {
+      whisperPopup.classList.remove('active');
+      backdrop.classList.remove('active');
     }
 
-    // Tương tác nút mở thiệp nhanh
-    document.getElementById('open-card-btn').addEventListener('click', () => {
-        document.getElementById('main-card').scrollIntoView({ behavior: 'smooth' });
-    });
+    closeWhisper.addEventListener('click', closeAllPopups);
+    backdrop.addEventListener('click', closeAllPopups);
 
-    document.getElementById('reset-flower-btn').addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('retriggerBloom').addEventListener('click', () => {
+      drawBouquet();
     });
-</script>
+  </script>
+</body>
+</html>
