@@ -1,403 +1,699 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Một bó hoa dành tặng bạn · 20/10</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;1,400&family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-primary: #fdf6f7;
-      --card-bg: #fffbfb;
-      --text-main: #4a3b3c;
-      --text-muted: #7a6b6c;
-      --accent-pink: #d46a84;
-      --border-color: #f0d8de;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc Mừng Chuỗi 500</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Noto Sans', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
+        body {
+            background-color: #030308;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
 
-    body {
-      background-color: var(--bg-primary);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow-x: hidden;
-      position: relative;
-      padding: 20px;
-    }
+        /* Lưới chấm bi nguyên bản kết hợp nền vũ trụ */
+        .dot-grid {
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+            background-size: 28px 28px;
+            z-index: 2;
+            pointer-events: none;
+        }
 
-    .petal {
-      position: absolute;
-      background: rgba(212, 106, 132, 0.15);
-      border-radius: 150% 0 150% 0;
-      animation: fall linear infinite;
-      pointer-events: none;
-      z-index: 1;
-    }
+        /* Hiệu ứng Dải Ngân Hà (Galaxy Nebula) */
+        .galaxy-nebula {
+            position: absolute;
+            width: 150vw;
+            height: 150vh;
+            background: 
+                radial-gradient(ellipse at 30% 40%, rgba(138, 43, 226, 0.28) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 60%, rgba(0, 180, 255, 0.22) 0%, transparent 45%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 50, 150, 0.15) 0%, transparent 60%);
+            filter: blur(45px);
+            animation: rotateGalaxy 40s linear infinite alternate;
+            z-index: 0;
+            pointer-events: none;
+        }
 
-    @keyframes fall {
-      0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-      20% { opacity: 0.8; }
-      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-    }
+        @keyframes rotateGalaxy {
+            0% { transform: rotate(0deg) scale(1); }
+            100% { transform: rotate(15deg) scale(1.15); }
+        }
 
-    .container {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      max-width: 1100px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 24px;
-    }
+        /* Canvas vẽ bầu trời sao & sao băng */
+        #starCanvas {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
 
-    header {
-      text-align: center;
-      margin-bottom: 10px;
-    }
+        /* Màn hình 1: Intro */
+        #intro-screen {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
 
-    header h1 {
-      font-family: 'Noto Serif', serif;
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: 600;
-      color: var(--accent-pink);
-      line-height: 1.3;
-      margin-bottom: 6px;
-    }
+        .glow-title {
+            color: #ffffff;
+            font-size: clamp(1.4rem, 3.5vw, 2.5rem);
+            font-weight: 900;
+            letter-spacing: 8px;
+            text-shadow: 
+                0 0 8px #fff,
+                0 0 18px #fff,
+                0 0 35px #b967ff,
+                0 0 65px #b967ff;
+            margin-bottom: 32px;
+            animation: pulseText 2.5s infinite alternate;
+        }
 
-    .subtitle {
-      font-family: 'Noto Serif', serif;
-      font-size: clamp(14px, 1.8vw, 16px);
-      color: var(--text-muted);
-      font-style: italic;
-    }
+        @keyframes pulseText {
+            0% { text-shadow: 0 0 8px #fff, 0 0 18px #fff, 0 0 30px #b967ff; }
+            100% { text-shadow: 0 0 12px #fff, 0 0 25px #00d2ff, 0 0 50px #00d2ff, 0 0 80px #b967ff; }
+        }
 
-    .main-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 40px;
-      width: 100%;
-      align-items: center;
-      justify-content: center;
-    }
+        .open-btn {
+            background: rgba(15, 15, 30, 0.75);
+            color: #fff;
+            border: 2px solid #fff;
+            padding: 12px 36px;
+            font-size: 1.15rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.7), inset 0 0 10px rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(4px);
+        }
 
-    .bouquet-section {
-      flex: 1;
-      min-width: 320px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
+        .open-btn:hover {
+            transform: scale(1.08);
+            background: #fff;
+            color: #050510;
+            box-shadow: 0 0 25px #fff, 0 0 50px #00d2ff;
+        }
 
-    canvas#bouquetCanvas {
-      cursor: pointer;
-      max-width: 100%;
-      height: auto;
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
+        .sparkle-icon {
+            color: #ffd700;
+            font-size: 1.3rem;
+            text-shadow: 0 0 8px #ffd700;
+        }
 
-    canvas#bouquetCanvas:hover {
-      transform: scale(1.02);
-    }
+        /* Màn hình 2: Vườn hoa & Chữ Chúc Mừng */
+        #main-screen {
+            position: absolute;
+            inset: 0;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 9vh;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.2s ease;
+        }
 
-    .card-section {
-      flex: 1;
-      min-width: 340px;
-      max-width: 520px;
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--border-color);
-      border-radius: 24px;
-      padding: 36px 30px;
-      box-shadow: 0 15px 40px rgba(212, 106, 132, 0.12);
-      position: relative;
-    }
+        #main-screen.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
 
-    .card-header {
-      text-align: center;
-      margin-bottom: 22px;
-      position: relative;
-    }
+        .congrats-text {
+            color: #ffffff;
+            font-size: clamp(1.3rem, 3.8vw, 2.7rem);
+            font-weight: 900;
+            letter-spacing: 6px;
+            text-align: center;
+            padding: 0 16px;
+            text-shadow: 
+                0 0 10px #fff,
+                0 0 20px #fff,
+                0 0 40px #ff4da6,
+                0 0 80px #ff4da6;
+        }
 
-    .card-title {
-      font-family: 'Noto Serif', serif;
-      font-size: 26px;
-      color: var(--accent-pink);
-      letter-spacing: 3px;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
+        .congrats-text span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: letterIn 0.5s forwards;
+        }
 
-    .card-flower-icon {
-      font-size: 20px;
-      color: var(--accent-pink);
-      display: block;
-    }
+        @keyframes letterIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .card-body {
-      font-size: 15px;
-      line-height: 1.7;
-      color: var(--text-main);
-    }
+        /* Khu vực Vườn Hoa */
+        .garden {
+            position: relative;
+            width: 100%;
+            max-width: 950px;
+            height: 68vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
 
-    .card-greeting {
-      font-weight: 600;
-      color: var(--accent-pink);
-      margin-bottom: 12px;
-      font-size: 16px;
-    }
+        .plant {
+            position: absolute;
+            bottom: -10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform-origin: bottom center;
+            transform: scaleY(0);
+        }
 
-    .card-main-msg {
-      font-family: 'Noto Serif', serif;
-      font-size: 22px;
-      font-style: italic;
-      text-align: center;
-      color: #5c3d4c;
-      padding: 14px 0;
-      line-height: 1.4;
-    }
+        #main-screen.show .plant {
+            animation: growStem 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards, sway 4.5s ease-in-out infinite alternate 1.8s;
+        }
 
-    .card-signature {
-      text-align: right;
-      font-style: italic;
-      font-family: 'Noto Serif', serif;
-      font-size: 18px;
-      color: var(--accent-pink);
-      margin-top: 24px;
-    }
+        @keyframes growStem {
+            0% { transform: scaleY(0); }
+            100% { transform: scaleY(1); }
+        }
 
-    .actions-footer {
-      margin-top: 25px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      font-size: 13px;
-    }
+        @keyframes sway {
+            0% { transform: rotate(-2.5deg); }
+            100% { transform: rotate(2.5deg); }
+        }
 
-    .action-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
+        /* Thân cây */
+        .stem {
+            width: 7px;
+            background: linear-gradient(to top, #1b6320, #5cd65c);
+            border-radius: 5px;
+            position: relative;
+            box-shadow: 0 0 10px rgba(92, 214, 92, 0.35);
+        }
 
-    .action-link:hover {
-      color: var(--accent-pink);
-    }
+        /* Lá trên thân */
+        .leaf {
+            position: absolute;
+            width: 28px;
+            height: 13px;
+            background: linear-gradient(135deg, #6ef06e, #288a2c);
+            border-radius: 20px 0 20px 0;
+            box-shadow: 0 0 8px rgba(92, 214, 92, 0.4);
+        }
 
-    .whisper-popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.9);
-      background: #fff;
-      padding: 24px 30px;
-      border-radius: 20px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-      border: 1px solid var(--border-color);
-      z-index: 100;
-      text-align: center;
-      max-width: 320px;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s ease;
-    }
+        .leaf.left {
+            left: -26px;
+            transform: rotate(-20deg);
+            border-radius: 0 20px 0 20px;
+        }
 
-    .whisper-popup.active {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-      pointer-events: auto;
-    }
+        .leaf.right {
+            right: -26px;
+            transform: rotate(20deg);
+        }
 
-    .whisper-popup p {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 16px;
-      line-height: 1.5;
-    }
+        /* Bông hoa trắng 8 cánh */
+        .white-flower {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            margin-bottom: -12px;
+            z-index: 3;
+            transform: scale(0);
+        }
 
-    .whisper-close {
-      background: var(--accent-pink);
-      color: #fff;
-      border: none;
-      padding: 6px 20px;
-      border-radius: 99px;
-      cursor: pointer;
-      font-weight: 600;
-    }
+        #main-screen.show .white-flower {
+            animation: bloomFlower 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation-delay: 1.1s;
+        }
 
-    .backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(74, 59, 60, 0.3);
-      backdrop-filter: blur(4px);
-      z-index: 90;
-      display: none;
-    }
+        .white-flower .petal {
+            position: absolute;
+            width: 26px;
+            height: 64px;
+            background: #ffffff;
+            border-radius: 50%;
+            top: 13px;
+            left: 32px;
+            box-shadow: 0 0 18px rgba(255, 255, 255, 0.95);
+        }
 
-    .backdrop.active {
-      display: block;
-    }
+        .white-flower .petal:nth-child(1) { transform: rotate(0deg); }
+        .white-flower .petal:nth-child(2) { transform: rotate(45deg); }
+        .white-flower .petal:nth-child(3) { transform: rotate(90deg); }
+        .white-flower .petal:nth-child(4) { transform: rotate(135deg); }
 
-    @media (max-width: 768px) {
-      .main-content {
-        flex-direction: column;
-      }
-      .card-section {
-        width: 100%;
-      }
-    }
-  </style>
+        /* Nhụy hoa */
+        .white-flower .center {
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            background: radial-gradient(circle, #fff 20%, #ffd1ea 100%);
+            border-radius: 50%;
+            top: 32px;
+            left: 32px;
+            box-shadow: 0 0 15px #ffbdf0;
+        }
+
+        /* Bông hoa trắng 6 cánh nhọn */
+        .star-flower {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin-bottom: -10px;
+            z-index: 3;
+            transform: scale(0);
+        }
+
+        #main-screen.show .star-flower {
+            animation: bloomFlower 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation-delay: 1.3s;
+        }
+
+        .star-flower .petal {
+            position: absolute;
+            width: 22px;
+            height: 76px;
+            background: #ffffff;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            top: 2px;
+            left: 29px;
+            box-shadow: 0 0 20px #ffffff, 0 0 35px #fff5cc;
+        }
+
+        .star-flower .petal:nth-child(1) { transform: rotate(0deg); }
+        .star-flower .petal:nth-child(2) { transform: rotate(60deg); }
+        .star-flower .petal:nth-child(3) { transform: rotate(120deg); }
+
+        .star-flower .center {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: #fff9d6;
+            border-radius: 50%;
+            top: 29px;
+            left: 29px;
+            box-shadow: 0 0 12px #ffe680;
+        }
+
+        /* Hoa Tulip Hồng Đỏ */
+        .tulip-flower {
+            position: relative;
+            width: 44px;
+            height: 54px;
+            margin-bottom: -6px;
+            z-index: 3;
+            transform: scale(0);
+        }
+
+        #main-screen.show .tulip-flower {
+            animation: bloomFlower 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation-delay: 1.4s;
+        }
+
+        .tulip-flower .tulip-petal {
+            position: absolute;
+            background: linear-gradient(to top, #d4145a, #ff5e8e);
+            box-shadow: 0 0 16px rgba(255, 75, 130, 0.85);
+        }
+
+        .tulip-flower .tulip-petal.middle {
+            width: 28px;
+            height: 50px;
+            left: 8px;
+            top: 2px;
+            border-radius: 45% 45% 40% 40%;
+            z-index: 2;
+        }
+
+        .tulip-flower .tulip-petal.left {
+            width: 24px;
+            height: 44px;
+            left: 0;
+            top: 8px;
+            border-radius: 50% 20% 40% 50%;
+            transform: rotate(-14deg);
+            z-index: 1;
+        }
+
+        .tulip-flower .tulip-petal.right {
+            width: 24px;
+            height: 44px;
+            right: 0;
+            top: 8px;
+            border-radius: 20% 50% 50% 40%;
+            transform: rotate(14deg);
+            z-index: 1;
+        }
+
+        @keyframes bloomFlower {
+            0% { transform: scale(0) rotate(-25deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        /* Cỏ dài dưới gốc */
+        .grass-blade {
+            position: absolute;
+            bottom: -10px;
+            width: 9px;
+            background: linear-gradient(to top, #144917, #4ec94e);
+            border-radius: 100% 0 0 0;
+            transform-origin: bottom center;
+            transform: scaleY(0);
+            box-shadow: 0 0 8px rgba(78, 201, 78, 0.25);
+        }
+
+        #main-screen.show .grass-blade {
+            animation: growGrass 1.5s ease-out forwards;
+        }
+
+        @keyframes growGrass {
+            to { transform: scaleY(1) rotate(var(--rot)); }
+        }
+    </style>
 </head>
 <body>
 
-  <div id="petals-container"></div>
+    <!-- Hiệu ứng Dải Ngân Hà & Sao sáng -->
+    <div class="galaxy-nebula"></div>
+    <canvas id="starCanvas"></canvas>
+    <div class="dot-grid"></div>
 
-  <div class="container">
-    <header>
-      <h1>Ngày Phụ Nữ Việt Nam · 20/10</h1>
-      <div class="subtitle">Một bó hoa nhỏ, gửi ngàn yêu thương.</div>
-    </header>
-
-    <div class="main-content">
-      <div class="bouquet-section">
-        <canvas id="bouquetCanvas" width="450" height="520"></canvas>
-      </div>
-
-      <!-- Khung Thiệp Chúc Mừng Đã Sửa Tên Thành "en nờ pê cê" -->
-      <div class="card-section">
-        <div class="card-header">
-          <div class="card-title">20 / 10</div>
-          <span class="card-flower-icon">🌸</span>
-        </div>
-        <div class="card-body">
-          <div class="card-greeting">Gửi npcp =)),</div>
-          <div class="card-main-msg">May beautiful things always blossom around u.</div>
-          <br>
-          <p>Một bông hoa có thể làm một ngày thêm đẹp.</p>
-          <br>
-          <p>Nhân ngày 20/10, chúc en nờ pê cê luôn được yêu thương, trân trọng và luôn luôn vui tươi, tràn đầy hạnh phúc, vui vẻ, niềm vui trong cuộc sống.</p>
-          <div class="card-signature">skibidi</div>
-        </div>
-        <div class="actions-footer">
-          <span class="action-link" id="retriggerBloom">Làm mới bó hoa ↺</span>
-        </div>
-      </div>
+    <!-- Màn hình 1: Nút bấm mở quà -->
+    <div id="intro-screen">
+        <h1 class="glow-title">I Have Something</h1>
+        <button class="open-btn" id="openBtn">
+            <span class="sparkle-icon">✦</span> Open
+        </button>
     </div>
-  </div>
 
-  <div class="backdrop" id="backdrop"></div>
-  <div class="whisper-popup" id="whisperPopup">
-    <p id="whisperText">Chúc en nờ pê cê 20/10 ngập tràn niềm vui!</p>
-    <button class="whisper-close" id="closeWhisper">Đóng lại</button>
-  </div>
+    <!-- Màn hình 2: Chúc mừng chuỗi 500 & Vườn hoa -->
+    <div id="main-screen">
+        <h1 class="congrats-text" id="congratsTitle"></h1>
 
-  <script>
-    const WHISPER_NOTES = [
-      "Chúc en nờ pê cê 20/10 ngập tràn niềm vui! 🌸",
-      "May beautiful things always blossom around u! ✨",
-      "Luôn rạng rỡ, xinh đẹp và mỉm cười mỗi ngày nhé! 💖",
-      "Mong mọi điều tốt đẹp nhất sẽ đến với cậu. 🌷"
-    ];
+        <div class="garden">
+            <!-- Cây 1: Hoa trắng ngoài cùng bên trái -->
+            <div class="plant" style="left: 8%; animation-delay: 0.2s;">
+                <div class="white-flower" style="transform: scale(0.85);">
+                    <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
+                    <div class="center"></div>
+                </div>
+                <div class="stem" style="height: 150px;">
+                    <div class="leaf left" style="top: 35px;"></div>
+                    <div class="leaf right" style="top: 65px;"></div>
+                    <div class="leaf left" style="top: 95px;"></div>
+                </div>
+            </div>
 
-    const petalsContainer = document.getElementById('petals-container');
-    for (let i = 0; i < 18; i++) {
-      const p = document.createElement('div');
-      p.className = 'petal';
-      p.style.left = `${Math.random() * 100}vw`;
-      p.style.top = `${-10 - Math.random() * 20}vh`;
-      p.style.width = `${12 + Math.random() * 12}px`;
-      p.style.height = `${16 + Math.random() * 16}px`;
-      p.style.animationDuration = `${6 + Math.random() * 6}s`;
-      p.style.animationDelay = `${Math.random() * 5}s`;
-      petalsContainer.appendChild(p);
-    }
+            <!-- Cây 2: Hoa Tulip hồng bên trái -->
+            <div class="plant" style="left: 20%; animation-delay: 0.4s;">
+                <div class="tulip-flower">
+                    <div class="tulip-petal left"></div>
+                    <div class="tulip-petal right"></div>
+                    <div class="tulip-petal middle"></div>
+                </div>
+                <div class="stem" style="height: 210px;">
+                    <div class="leaf left" style="top: 30px;"></div>
+                    <div class="leaf right" style="top: 75px;"></div>
+                    <div class="leaf left" style="top: 120px;"></div>
+                    <div class="leaf right" style="top: 160px;"></div>
+                </div>
+            </div>
 
-    const canvas = document.getElementById('bouquetCanvas');
-    const ctx = canvas.getContext('2d');
-    const whisperPopup = document.getElementById('whisperPopup');
-    const whisperText = document.getElementById('whisperText');
-    const backdrop = document.getElementById('backdrop');
-    const closeWhisper = document.getElementById('closeWhisper');
+            <!-- Cây 3: Hoa sao 6 cánh trắng bên trái giữa -->
+            <div class="plant" style="left: 34%; animation-delay: 0.1s;">
+                <div class="star-flower">
+                    <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+                    <div class="center"></div>
+                </div>
+                <div class="stem" style="height: 265px;">
+                    <div class="leaf right" style="top: 30px;"></div>
+                    <div class="leaf left" style="top: 75px;"></div>
+                    <div class="leaf right" style="top: 120px;"></div>
+                    <div class="leaf left" style="top: 165px;"></div>
+                    <div class="leaf right" style="top: 210px;"></div>
+                </div>
+            </div>
 
-    function drawBouquet() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      ctx.fillStyle = '#fce4ec';
-      ctx.beginPath();
-      ctx.moveTo(225, 200);
-      ctx.lineTo(130, 460);
-      ctx.lineTo(320, 460);
-      ctx.closePath();
-      ctx.fill();
+            <!-- Cây 4: Hoa Tulip hồng nhỏ ở giữa trái -->
+            <div class="plant" style="left: 42%; animation-delay: 0.5s;">
+                <div class="tulip-flower">
+                    <div class="tulip-petal left"></div>
+                    <div class="tulip-petal right"></div>
+                    <div class="tulip-petal middle"></div>
+                </div>
+                <div class="stem" style="height: 220px;">
+                    <div class="leaf left" style="top: 40px;"></div>
+                    <div class="leaf right" style="top: 90px;"></div>
+                    <div class="leaf left" style="top: 140px;"></div>
+                </div>
+            </div>
 
-      ctx.fillStyle = '#d46a84';
-      ctx.beginPath();
-      ctx.arc(225, 430, 22, 0, Math.PI * 2);
-      ctx.fill();
+            <!-- Cây 5: Hoa trắng lớn nhất chính giữa -->
+            <div class="plant" style="left: 49%; animation-delay: 0s;">
+                <div class="white-flower" style="transform: scale(1.15);">
+                    <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
+                    <div class="center"></div>
+                </div>
+                <div class="stem" style="height: 350px;">
+                    <div class="leaf left" style="top: 25px;"></div>
+                    <div class="leaf right" style="top: 70px;"></div>
+                    <div class="leaf left" style="top: 120px;"></div>
+                    <div class="leaf right" style="top: 170px;"></div>
+                    <div class="leaf left" style="top: 220px;"></div>
+                    <div class="leaf right" style="top: 270px;"></div>
+                </div>
+            </div>
 
-      const roses = [
-        {x: 225, y: 160, r: 48, c: '#ff85c0'},
-        {x: 175, y: 200, r: 42, c: '#ffb3d1'},
-        {x: 275, y: 200, r: 42, c: '#ff99bb'},
-        {x: 130, y: 250, r: 38, c: '#ffc2d6'},
-        {x: 225, y: 240, r: 44, c: '#ff70a6'},
-        {x: 320, y: 250, r: 38, c: '#ffa6c1'},
-        {x: 180, y: 290, r: 36, c: '#ffb3d1'},
-        {x: 270, y: 290, r: 36, c: '#ff85c0'},
-        {x: 225, y: 310, r: 38, c: '#ffc2d6'}
-      ];
+            <!-- Cây 6: Hoa Tulip hồng ở giữa phải -->
+            <div class="plant" style="left: 56%; animation-delay: 0.3s;">
+                <div class="tulip-flower">
+                    <div class="tulip-petal left"></div>
+                    <div class="tulip-petal right"></div>
+                    <div class="tulip-petal middle"></div>
+                </div>
+                <div class="stem" style="height: 230px;">
+                    <div class="leaf right" style="top: 35px;"></div>
+                    <div class="leaf left" style="top: 85px;"></div>
+                    <div class="leaf right" style="top: 135px;"></div>
+                    <div class="leaf left" style="top: 185px;"></div>
+                </div>
+            </div>
 
-      roses.forEach(rose => {
-        ctx.save();
-        ctx.fillStyle = rose.c;
-        ctx.beginPath();
-        ctx.arc(rose.x, rose.y, rose.r, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle = '#fff';
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        ctx.arc(rose.x, rose.y, rose.r * 0.55, 0, Math.PI * 1.5);
-        ctx.stroke();
-        ctx.restore();
-      });
-    }
+            <!-- Cây 7: Hoa sao 6 cánh trắng bên phải giữa -->
+            <div class="plant" style="left: 63%; animation-delay: 0.2s;">
+                <div class="star-flower">
+                    <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+                    <div class="center"></div>
+                </div>
+                <div class="stem" style="height: 290px;">
+                    <div class="leaf left" style="top: 20px;"></div>
+                    <div class="leaf right" style="top: 65px;"></div>
+                    <div class="leaf left" style="top: 115px;"></div>
+                    <div class="leaf right" style="top: 165px;"></div>
+                    <div class="leaf left" style="top: 215px;"></div>
+                </div>
+            </div>
 
-    drawBouquet();
+            <!-- Cây 8: Hoa Tulip hồng bên phải -->
+            <div class="plant" style="left: 77%; animation-delay: 0.45s;">
+                <div class="tulip-flower">
+                    <div class="tulip-petal left"></div>
+                    <div class="tulip-petal right"></div>
+                    <div class="tulip-petal middle"></div>
+                </div>
+                <div class="stem" style="height: 225px;">
+                    <div class="leaf left" style="top: 40px;"></div>
+                    <div class="leaf right" style="top: 90px;"></div>
+                    <div class="leaf left" style="top: 145px;"></div>
+                </div>
+            </div>
 
-    canvas.addEventListener('click', () => {
-      const randomNote = WHISPER_NOTES[Math.floor(Math.random() * WHISPER_NOTES.length)];
-      whisperText.textContent = randomNote;
-      whisperPopup.classList.add('active');
-      backdrop.classList.add('active');
-    });
+            <!-- Cây 9: Hoa trắng ngoài cùng bên phải -->
+            <div class="plant" style="left: 86%; animation-delay: 0.35s;">
+                <div class="white-flower">
+                    <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
+                    <div class="center"></div>
+                </div>
+                <div class="stem" style="height: 175px;">
+                    <div class="leaf left" style="top: 40px;"></div>
+                    <div class="leaf right" style="top: 75px;"></div>
+                    <div class="leaf left" style="top: 115px;"></div>
+                </div>
+            </div>
 
-    function closeAllPopups() {
-      whisperPopup.classList.remove('active');
-      backdrop.classList.remove('active');
-    }
+            <!-- Các nhánh cỏ đan xen -->
+            <div class="grass-blade" style="left: 6%; height: 140px; --rot: -8deg;"></div>
+            <div class="grass-blade" style="left: 14%; height: 190px; --rot: 5deg;"></div>
+            <div class="grass-blade" style="left: 18%; height: 220px; --rot: -4deg;"></div>
+            <div class="grass-blade" style="left: 25%; height: 180px; --rot: 14deg;"></div>
+            <div class="grass-blade" style="left: 32%; height: 150px; --rot: -6deg;"></div>
+            <div class="grass-blade" style="left: 40%; height: 200px; --rot: 10deg;"></div>
+            <div class="grass-blade" style="left: 47%; height: 170px; --rot: -5deg;"></div>
+            <div class="grass-blade" style="left: 61%; height: 240px; --rot: -12deg;"></div>
+            <div class="grass-blade" style="left: 67%; height: 210px; --rot: 12deg;"></div>
+            <div class="grass-blade" style="left: 73%; height: 150px; --rot: -15deg;"></div>
+            <div class="grass-blade" style="left: 81%; height: 220px; --rot: 8deg;"></div>
+            <div class="grass-blade" style="left: 93%; height: 160px; --rot: -6deg;"></div>
+            <div class="grass-blade" style="left: 96%; height: 250px; --rot: -3deg;"></div>
+        </div>
+    </div>
 
-    closeWhisper.addEventListener('click', closeAllPopups);
-    backdrop.addEventListener('click', closeAllPopups);
+    <script>
+        /* Xử lý sự kiện nhấn nút Open */
+        const openBtn = document.getElementById('openBtn');
+        const introScreen = document.getElementById('intro-screen');
+        const mainScreen = document.getElementById('main-screen');
+        const congratsTitle = document.getElementById('congratsTitle');
+        const message = "CHÚC MỪNG CHUỖI 500 🔥";
 
-    document.getElementById('retriggerBloom').addEventListener('click', () => {
-      drawBouquet();
-    });
-  </script>
+        openBtn.addEventListener('click', () => {
+            introScreen.style.opacity = '0';
+            introScreen.style.transform = 'scale(0.85)';
+            setTimeout(() => {
+                introScreen.style.display = 'none';
+                mainScreen.classList.add('show');
+                renderGlowingText();
+            }, 700);
+        });
+
+        function renderGlowingText() {
+            congratsTitle.innerHTML = '';
+            [...message].forEach((char, index) => {
+                const span = document.createElement('span');
+                span.textContent = char === ' ' ? '\u00A0' : char;
+                span.style.animationDelay = `${index * 0.07}s`;
+                congratsTitle.appendChild(span);
+            });
+        }
+
+        /* Hiệu ứng Dải Ngân Hà, Ngôi Sao Lấp Lánh & Sao Băng bằng HTML5 Canvas */
+        const canvas = document.getElementById('starCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let stars = [];
+        let shootingStars = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Khởi tạo 280 ngôi sao đủ màu sắc ngân hà
+        const starColors = ['#ffffff', '#ffe9c4', '#d4fbff', '#f3d4ff', '#ffb8e6'];
+        for (let i = 0; i < 280; i++) {
+            stars.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                radius: Math.random() * 1.8 + 0.3,
+                color: starColors[Math.floor(Math.random() * starColors.length)],
+                alpha: Math.random(),
+                speed: Math.random() * 0.02 + 0.005,
+                isSparkle: Math.random() > 0.88 // 12% ngôi sao có tia sáng chữ thập
+            });
+        }
+
+        function createShootingStar() {
+            shootingStars.push({
+                x: Math.random() * width * 0.8 + width * 0.1,
+                y: Math.random() * height * 0.35,
+                len: Math.random() * 90 + 50,
+                speed: Math.random() * 10 + 8,
+                alpha: 1
+            });
+        }
+
+        // Cứ mỗi 2.5 giây có xác suất xuất hiện sao băng
+        setInterval(() => {
+            if (Math.random() > 0.3) createShootingStar();
+        }, 2200);
+
+        function animateGalaxy() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Vẽ các ngôi sao lấp lánh
+            stars.forEach(star => {
+                star.alpha += star.speed;
+                if (star.alpha >= 1 || star.alpha <= 0.15) {
+                    star.speed = -star.speed;
+                }
+
+                ctx.save();
+                ctx.globalAlpha = Math.max(0.1, Math.min(1, star.alpha));
+                ctx.fillStyle = star.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = star.color;
+
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Vẽ tia sáng lấp lánh 4 cánh cho các ngôi sao lớn
+                if (star.isSparkle && star.alpha > 0.6) {
+                    ctx.strokeStyle = star.color;
+                    ctx.lineWidth = 0.7;
+                    ctx.beginPath();
+                    ctx.moveTo(star.x - star.radius * 4, star.y);
+                    ctx.lineTo(star.x + star.radius * 4, star.y);
+                    ctx.moveTo(star.x, star.y - star.radius * 4);
+                    ctx.lineTo(star.x, star.y + star.radius * 4);
+                    ctx.stroke();
+                }
+                ctx.restore();
+            });
+
+            // Vẽ sao băng bay ngang bầu trời
+            for (let i = shootingStars.length - 1; i >= 0; i--) {
+                const s = shootingStars[i];
+                ctx.save();
+                const grad = ctx.createLinearGradient(s.x, s.y, s.x + s.len, s.y - s.len * 0.6);
+                grad.addColorStop(0, `rgba(255, 255, 255, ${s.alpha})`);
+                grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = 2;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = '#00d2ff';
+                ctx.beginPath();
+                ctx.moveTo(s.x, s.y);
+                ctx.lineTo(s.x + s.len, s.y - s.len * 0.6);
+                ctx.stroke();
+                ctx.restore();
+
+                s.x -= s.speed;
+                s.y += s.speed * 0.6;
+                s.alpha -= 0.018;
+
+                if (s.alpha <= 0) {
+                    shootingStars.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(animateGalaxy);
+        }
+
+        animateGalaxy();
+    </script>
 </body>
 </html>
