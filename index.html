@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chúc Mừng Chuỗi 500</title>
+    <title>Chúc Mừng Chuỗi 500 & 20/10</title>
     <style>
         * {
             margin: 0;
@@ -127,7 +127,7 @@
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            padding-top: 9vh;
+            padding-top: 6vh;
             opacity: 0;
             pointer-events: none;
             transition: opacity 1.2s ease;
@@ -138,11 +138,19 @@
             pointer-events: auto;
         }
 
+        .header-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+            z-index: 20;
+        }
+
         .congrats-text {
             color: #ffffff;
-            font-size: clamp(1.3rem, 3.8vw, 2.7rem);
+            font-size: clamp(1.2rem, 3.5vw, 2.5rem);
             font-weight: 900;
-            letter-spacing: 6px;
+            letter-spacing: 5px;
             text-align: center;
             padding: 0 16px;
             text-shadow: 
@@ -166,12 +174,170 @@
             }
         }
 
+        /* Nút mở thiệp lấp lánh */
+        .card-btn {
+            background: linear-gradient(135deg, rgba(255, 77, 166, 0.25), rgba(185, 103, 255, 0.25));
+            color: #fff;
+            border: 1.5px solid #ff99cc;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: bold;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 77, 166, 0.7), inset 0 0 10px rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(6px);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInBtn 1s ease forwards 2.2s, floatBtn 2.5s ease-in-out infinite alternate 3.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-btn:hover {
+            background: #ff4da6;
+            color: #fff;
+            box-shadow: 0 0 25px #ff4da6, 0 0 45px #ff99cc;
+            transform: scale(1.1) !important;
+        }
+
+        @keyframes fadeInBtn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatBtn {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-6px); }
+        }
+
+        /* Modal Thiệp Chúc Mừng */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 3, 12, 0.78);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .letter-card {
+            background: linear-gradient(145deg, rgba(28, 18, 45, 0.95), rgba(15, 10, 28, 0.98));
+            border: 2px solid rgba(255, 130, 190, 0.7);
+            border-radius: 22px;
+            max-width: 500px;
+            width: 100%;
+            padding: 32px 28px;
+            position: relative;
+            box-shadow: 
+                0 0 30px rgba(255, 77, 166, 0.45),
+                0 0 60px rgba(138, 43, 226, 0.3),
+                inset 0 0 20px rgba(255, 182, 219, 0.15);
+            transform: scale(0.8) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+        }
+
+        .modal-overlay.active .letter-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .close-card {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            background: none;
+            border: none;
+            color: #ffb3d9;
+            font-size: 1.6rem;
+            cursor: pointer;
+            transition: transform 0.2s, color 0.2s;
+        }
+
+        .close-card:hover {
+            color: #fff;
+            transform: scale(1.2);
+        }
+
+        .card-header {
+            text-align: center;
+            font-size: 1.35rem;
+            color: #ff99cc;
+            margin-bottom: 18px;
+            font-weight: 700;
+            text-shadow: 0 0 12px rgba(255, 153, 204, 0.8);
+        }
+
+        .card-body {
+            font-size: 1.08rem;
+            line-height: 1.75;
+            color: #f7e8ff;
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
+            min-height: 120px;
+            white-space: pre-line;
+        }
+
+        .card-Sign {
+            margin-top: 22px;
+            text-align: right;
+            font-weight: bold;
+            font-style: italic;
+            color: #70eaff;
+            font-size: 1.05rem;
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.7);
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .card-Sign.show-sign {
+            opacity: 1;
+        }
+
+        /* Nút bật/tắt nhạc góc phải */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #fff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            animation: spinDisk 6s linear infinite;
+        }
+
+        @keyframes spinDisk {
+            100% { transform: rotate(360deg); }
+        }
+
         /* Khu vực Vườn Hoa */
         .garden {
             position: relative;
             width: 100%;
             max-width: 950px;
-            height: 68vh;
+            height: 64vh;
             display: flex;
             justify-content: center;
             align-items: flex-end;
@@ -262,7 +428,6 @@
         .white-flower .petal:nth-child(3) { transform: rotate(90deg); }
         .white-flower .petal:nth-child(4) { transform: rotate(135deg); }
 
-        /* Nhụy hoa */
         .white-flower .center {
             position: absolute;
             width: 26px;
@@ -393,6 +558,13 @@
 </head>
 <body>
 
+    <!-- Nhạc nền 3 Strikes (Ưu tiên file nhac.mp3 cùng thư mục + Dự phòng YouTube) -->
+    <audio id="bgMusic" loop>
+        <source src="nhac.mp3" type="audio/mpeg">
+    </audio>
+    <div id="yt-player-container" style="position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none;"></div>
+    <button class="music-control" id="musicBtn" title="Bật/Tắt nhạc">🎵</button>
+
     <!-- Hiệu ứng Dải Ngân Hà & Sao sáng -->
     <div class="galaxy-nebula"></div>
     <canvas id="starCanvas"></canvas>
@@ -406,12 +578,17 @@
         </button>
     </div>
 
-    <!-- Màn hình 2: Chúc mừng chuỗi 500 & Vườn hoa -->
+    <!-- Màn hình 2: Chúc mừng chuỗi 500, Nút mở thiệp & Vườn hoa -->
     <div id="main-screen">
-        <h1 class="congrats-text" id="congratsTitle"></h1>
+        <div class="header-box">
+            <h1 class="congrats-text" id="congratsTitle"></h1>
+            <button class="card-btn" id="openCardBtn">
+                💌 Mở thiệp
+            </button>
+        </div>
 
         <div class="garden">
-            <!-- Cây 1: Hoa trắng ngoài cùng bên trái -->
+            <!-- Cây 1 -->
             <div class="plant" style="left: 8%; animation-delay: 0.2s;">
                 <div class="white-flower" style="transform: scale(0.85);">
                     <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
@@ -424,7 +601,7 @@
                 </div>
             </div>
 
-            <!-- Cây 2: Hoa Tulip hồng bên trái -->
+            <!-- Cây 2 -->
             <div class="plant" style="left: 20%; animation-delay: 0.4s;">
                 <div class="tulip-flower">
                     <div class="tulip-petal left"></div>
@@ -439,7 +616,7 @@
                 </div>
             </div>
 
-            <!-- Cây 3: Hoa sao 6 cánh trắng bên trái giữa -->
+            <!-- Cây 3 -->
             <div class="plant" style="left: 34%; animation-delay: 0.1s;">
                 <div class="star-flower">
                     <div class="petal"></div><div class="petal"></div><div class="petal"></div>
@@ -454,7 +631,7 @@
                 </div>
             </div>
 
-            <!-- Cây 4: Hoa Tulip hồng nhỏ ở giữa trái -->
+            <!-- Cây 4 -->
             <div class="plant" style="left: 42%; animation-delay: 0.5s;">
                 <div class="tulip-flower">
                     <div class="tulip-petal left"></div>
@@ -468,13 +645,13 @@
                 </div>
             </div>
 
-            <!-- Cây 5: Hoa trắng lớn nhất chính giữa -->
+            <!-- Cây 5: Chính giữa -->
             <div class="plant" style="left: 49%; animation-delay: 0s;">
                 <div class="white-flower" style="transform: scale(1.15);">
                     <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
                     <div class="center"></div>
                 </div>
-                <div class="stem" style="height: 350px;">
+                <div class="stem" style="height: 330px;">
                     <div class="leaf left" style="top: 25px;"></div>
                     <div class="leaf right" style="top: 70px;"></div>
                     <div class="leaf left" style="top: 120px;"></div>
@@ -484,7 +661,7 @@
                 </div>
             </div>
 
-            <!-- Cây 6: Hoa Tulip hồng ở giữa phải -->
+            <!-- Cây 6 -->
             <div class="plant" style="left: 56%; animation-delay: 0.3s;">
                 <div class="tulip-flower">
                     <div class="tulip-petal left"></div>
@@ -499,13 +676,13 @@
                 </div>
             </div>
 
-            <!-- Cây 7: Hoa sao 6 cánh trắng bên phải giữa -->
+            <!-- Cây 7 -->
             <div class="plant" style="left: 63%; animation-delay: 0.2s;">
                 <div class="star-flower">
                     <div class="petal"></div><div class="petal"></div><div class="petal"></div>
                     <div class="center"></div>
                 </div>
-                <div class="stem" style="height: 290px;">
+                <div class="stem" style="height: 280px;">
                     <div class="leaf left" style="top: 20px;"></div>
                     <div class="leaf right" style="top: 65px;"></div>
                     <div class="leaf left" style="top: 115px;"></div>
@@ -514,7 +691,7 @@
                 </div>
             </div>
 
-            <!-- Cây 8: Hoa Tulip hồng bên phải -->
+            <!-- Cây 8 -->
             <div class="plant" style="left: 77%; animation-delay: 0.45s;">
                 <div class="tulip-flower">
                     <div class="tulip-petal left"></div>
@@ -528,7 +705,7 @@
                 </div>
             </div>
 
-            <!-- Cây 9: Hoa trắng ngoài cùng bên phải -->
+            <!-- Cây 9 -->
             <div class="plant" style="left: 86%; animation-delay: 0.35s;">
                 <div class="white-flower">
                     <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
@@ -541,7 +718,7 @@
                 </div>
             </div>
 
-            <!-- Các nhánh cỏ đan xen -->
+            <!-- Cỏ đan xen -->
             <div class="grass-blade" style="left: 6%; height: 140px; --rot: -8deg;"></div>
             <div class="grass-blade" style="left: 14%; height: 190px; --rot: 5deg;"></div>
             <div class="grass-blade" style="left: 18%; height: 220px; --rot: -4deg;"></div>
@@ -558,15 +735,57 @@
         </div>
     </div>
 
+    <!-- Hộp Thiệp (Modal) -->
+    <div class="modal-overlay" id="cardModal">
+        <div class="letter-card">
+            <button class="close-card" id="closeCardBtn">&times;</button>
+            <div class="card-header">✨ Gửi người nhận đặc biệt ✨</div>
+            <div class="card-body" id="letterContent"></div>
+            <div class="card-Sign" id="letterSign">người gửi skibidi :))</div>
+        </div>
+    </div>
+
     <script>
-        /* Xử lý sự kiện nhấn nút Open */
         const openBtn = document.getElementById('openBtn');
         const introScreen = document.getElementById('intro-screen');
         const mainScreen = document.getElementById('main-screen');
         const congratsTitle = document.getElementById('congratsTitle');
+        const bgMusic = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        const ytContainer = document.getElementById('yt-player-container');
+
         const message = "CHÚC MỪNG CHUỖI 500 🔥";
 
+        // Xử lý phát nhạc "3 Strikes - Terror Jr"
+        let isPlaying = false;
+        function startMusic() {
+            musicBtn.style.display = 'flex';
+            bgMusic.play().then(() => {
+                isPlaying = true;
+            }).catch(() => {
+                // Nếu chưa có file nhac.mp3, tự động nhúng nhạc 3 Strikes từ YouTube
+                ytContainer.innerHTML = `<iframe width="100" height="100" src="https://www.youtube.com/embed/vital284N84?autoplay=1&loop=1&playlist=vital284N84" allow="autoplay"></iframe>`;
+                isPlaying = true;
+            });
+        }
+
+        musicBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                bgMusic.pause();
+                ytContainer.innerHTML = '';
+                musicBtn.style.animationPlayState = 'paused';
+                musicBtn.textContent = '🔇';
+                isPlaying = false;
+            } else {
+                startMusic();
+                musicBtn.style.animationPlayState = 'running';
+                musicBtn.textContent = '🎵';
+            }
+        });
+
+        // Bấm nút Open ở màn hình 1
         openBtn.addEventListener('click', () => {
+            startMusic();
             introScreen.style.opacity = '0';
             introScreen.style.transform = 'scale(0.85)';
             setTimeout(() => {
@@ -586,7 +805,47 @@
             });
         }
 
-        /* Hiệu ứng Dải Ngân Hà, Ngôi Sao Lấp Lánh & Sao Băng bằng HTML5 Canvas */
+        // Xử lý mở và đóng Thiệp chúc 20/10
+        const openCardBtn = document.getElementById('openCardBtn');
+        const closeCardBtn = document.getElementById('closeCardBtn');
+        const cardModal = document.getElementById('cardModal');
+        const letterContent = document.getElementById('letterContent');
+        const letterSign = document.getElementById('letterSign');
+
+        const fullLetterText = "hello npcpncc =)) nay hậu 20/10 chúc bù nhe, chúc chị 20/10 vui vẻ, xinh đẹp, luôn tràn đầy hạnh phúc, niềm vui, may mắn và luôn được trân trọng nhá";
+        let typingTimer;
+
+        openCardBtn.addEventListener('click', () => {
+            cardModal.classList.add('active');
+            letterContent.textContent = '';
+            letterSign.classList.remove('show-sign');
+            clearInterval(typingTimer);
+
+            let idx = 0;
+            typingTimer = setInterval(() => {
+                if (idx < fullLetterText.length) {
+                    letterContent.textContent += fullLetterText.charAt(idx);
+                    idx++;
+                } else {
+                    clearInterval(typingTimer);
+                    letterSign.classList.add('show-sign');
+                }
+            }, 35);
+        });
+
+        closeCardBtn.addEventListener('click', () => {
+            cardModal.classList.remove('active');
+            clearInterval(typingTimer);
+        });
+
+        cardModal.addEventListener('click', (e) => {
+            if (e.target === cardModal) {
+                cardModal.classList.remove('active');
+                clearInterval(typingTimer);
+            }
+        });
+
+        /* Hiệu ứng Dải Ngân Hà, Ngôi Sao Lấp Lánh & Sao Băng */
         const canvas = document.getElementById('starCanvas');
         const ctx = canvas.getContext('2d');
         let width, height;
@@ -600,7 +859,6 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        // Khởi tạo 280 ngôi sao đủ màu sắc ngân hà
         const starColors = ['#ffffff', '#ffe9c4', '#d4fbff', '#f3d4ff', '#ffb8e6'];
         for (let i = 0; i < 280; i++) {
             stars.push({
@@ -610,7 +868,7 @@
                 color: starColors[Math.floor(Math.random() * starColors.length)],
                 alpha: Math.random(),
                 speed: Math.random() * 0.02 + 0.005,
-                isSparkle: Math.random() > 0.88 // 12% ngôi sao có tia sáng chữ thập
+                isSparkle: Math.random() > 0.88
             });
         }
 
@@ -624,7 +882,6 @@
             });
         }
 
-        // Cứ mỗi 2.5 giây có xác suất xuất hiện sao băng
         setInterval(() => {
             if (Math.random() > 0.3) createShootingStar();
         }, 2200);
@@ -632,7 +889,6 @@
         function animateGalaxy() {
             ctx.clearRect(0, 0, width, height);
 
-            // Vẽ các ngôi sao lấp lánh
             stars.forEach(star => {
                 star.alpha += star.speed;
                 if (star.alpha >= 1 || star.alpha <= 0.15) {
@@ -649,7 +905,6 @@
                 ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Vẽ tia sáng lấp lánh 4 cánh cho các ngôi sao lớn
                 if (star.isSparkle && star.alpha > 0.6) {
                     ctx.strokeStyle = star.color;
                     ctx.lineWidth = 0.7;
@@ -663,7 +918,6 @@
                 ctx.restore();
             });
 
-            // Vẽ sao băng bay ngang bầu trời
             for (let i = shootingStars.length - 1; i >= 0; i--) {
                 const s = shootingStars[i];
                 ctx.save();
